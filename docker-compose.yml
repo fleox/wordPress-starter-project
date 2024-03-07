@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  app_worpress:
+    build:
+      args:
+        - WORDPRESS_ENV=prod
+      context: .
+      dockerfile: ./docker/Dockerfile
+    restart: unless-stopped
+
+volumes:
+  persistent:

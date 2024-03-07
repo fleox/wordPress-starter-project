@@ -1,0 +1,32 @@
+services:
+  app_worpress:
+    build:
+      args:
+        - WORDPRESS_ENV=dev
+    volumes:
+      - ./:/var/www/project/:cached
+      #- ./public:/var/www/project/public:cached
+    labels:
+      - "traefik.http.routers.wordpress.rule=Host(`wordpress.lh`)"
+      - traefik.http.routers.wordpress.entrypoints=http
+      - traefik.http.services.wordpress.loadbalancer.server.port=80
+    environment:
+      - WORDPRESS_ENV=dev
+    networks:
+      - traefik
+      - wordpress
+
+  node:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-node
+    # command: bash -c "yarn && yarn dev && tail -f /dev/null"
+    volumes:
+      - ./:/var/www/project
+    networks:
+      - wordpress
+
+networks:
+  wordpress:
+  traefik:
+    external: true

@@ -1,0 +1,45 @@
+services:
+  mariadb:
+    container_name: dockerize_mariadb
+    image: mariadb
+    ports:
+      - "3317:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql:delegated
+      - ./docker/build/db/:/docker-entrypoint-initdb.d/:delegated
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "--silent" ]
+    networks:
+      - wordpress
+
+  app_worpress:
+    build:
+      args:
+        - WORDPRESS_ENV=dev
+    volumes:
+      - ./:/var/www/project/:cached
+    environment:
+      - WORDPRESS_ENV=dev
+    ports:
+      - "8082:80"
+    networks:
+      - wordpress
+
+  node:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-node
+    command: bash -c "yarn && yarn dev && tail -f /dev/null"
+    volumes:
+      - ./:/var/www/project
+    networks:
+      - wordpress
+
+networks:
+  wordpress:
+
+volumes:
+  mysql_data:
+    driver: local
