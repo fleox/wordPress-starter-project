@@ -6,6 +6,7 @@ This project provides a solid foundation for developers to create a WordPress we
 - Installation and updating of WordPress, plugins, and dependencies via Composer.
 - MVC pattern with TWIG template engine.
 - CLI tool that allows you to interact with WordPress via the command line
+- Webpack encore to compile CSS and JS files
 
 ## Getting Started
 
