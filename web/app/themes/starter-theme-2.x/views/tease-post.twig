@@ -1,9 +1,12 @@
 {% extends "tease.twig" %}
 
 {% block content %}
-	<h2 class="h2"><a href="{{post.link}}">{{ post.title }}</a></h2>
-		<p>{{ post.excerpt({ words:5, read_more: "Keep reading" }) }}</p>
+	<article class="blog-post">
+		<h2 class="display-5 link-body-emphasis mb-1"><a href="{{post.link}}">{{ post.title }}</a></h2>
+		<p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
 		{% if post.thumbnail.src %}
-			<img src="{{ post.thumbnail.src }}" />
+			<img class="w-100" src="{{ post.thumbnail.src }}" />
 		{% endif %}
+		<p>{{ post.excerpt({ words:5, read_more: "Keep reading" }) }}</p>
+	</article>
 {% endblock %}

@@ -21,6 +21,7 @@ function add_manifest_to_context($context) {
     if (file_exists($manifest_path)) {
         $context['manifest'] = json_decode(file_get_contents($manifest_path), true);
     }
+
     return $context;
 }
 
