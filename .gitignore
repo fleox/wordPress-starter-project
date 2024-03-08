@@ -30,3 +30,6 @@ wp-cli.local.yml
 node_modules/*
 
 .DS_Store
+
+# Webpack
+web/app/themes/starter-theme-2.x/static/*

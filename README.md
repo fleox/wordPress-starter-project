@@ -91,3 +91,50 @@ docker compose exec app_worpress bash
 php wp-cli.phar --info
 ```
 
+## Webpack Encore
+Webpack Encore allows using Webpack while abstracting its configuration layer, making it "simpler" to use for a PHP developer. For example, it's very easy to set up configurations to use Sass, Babel, and even PurgeCss.
+
+In you theme, you must have following structure:
+
+```
+themes/
+├── your_theme/
+│   ├── assets/
+│   │   ├── js
+│   │   ├── scss
+```
+``` bash
+# To compile CSS and JS files :
+docker compose exec node bash 
+yarn encore dev
+```
+To load them in your templates, you must add the following code to the functions.php file of your theme. This will read the manifest.json and send the URLs to Twig.
+
+``` php
+add_action('timber/context', 'add_manifest_to_context');
+
+function add_manifest_to_context($context) {
+    $manifest_path = get_template_directory() . '/static/manifest.json';
+    if (file_exists($manifest_path)) {
+        $context['manifest'] = json_decode(file_get_contents($manifest_path), true);
+    }
+    return $context;
+}
+```
+Inside twig (for exemple here in base.html.twig) :
+``` twig
+{% if manifest %}
+		{% if manifest['bootstrap.css'] %}
+			<link rel="stylesheet" href="{{ manifest['bootstrap.css'] }}">
+		{% endif %}
+		{% if manifest['main.js'] %}
+			<script src="{{ manifest['main.js'] }}"></script>
+		{% endif %}
+		{% if manifest['bootstrap.js'] %}
+			<script src="{{ manifest['bootstrap.js'] }}"></script>
+		{% endif %}
+		{% if manifest['runtime.js'] %}
+			<script src="{{ manifest['runtime.js'] }}"></script>
+		{% endif %}
+{% endif %}
+```

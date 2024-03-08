@@ -31,7 +31,7 @@ services:
     build:
       context: ./docker
       dockerfile: Dockerfile-node
-    command: bash -c "yarn && yarn dev && tail -f /dev/null"
+    command: bash -c "yarn && yarn encore dev && tail -f /dev/null"
     volumes:
       - ./:/var/www/project
     networks:

@@ -43,4 +43,19 @@
 			{{ function('wp_footer') }}
 		{% endblock %}
 	</body>
+
+	{% if manifest %}
+		{% if manifest['bootstrap.css'] %}
+			<link rel="stylesheet" href="{{ manifest['bootstrap.css'] }}">
+		{% endif %}
+		{% if manifest['main.js'] %}
+			<script src="{{ manifest['main.js'] }}"></script>
+		{% endif %}
+		{% if manifest['bootstrap.js'] %}
+			<script src="{{ manifest['bootstrap.js'] }}"></script>
+		{% endif %}
+		{% if manifest['runtime.js'] %}
+			<script src="{{ manifest['runtime.js'] }}"></script>
+		{% endif %}
+	{% endif %}
 </html>
